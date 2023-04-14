@@ -31,9 +31,12 @@ class HomeController extends Controller
         );
         $keyword = $request->keyword ?? "digital marketing agency in malaysia";
         $domain  = $request->domain ?? "https://www.impossible.com.my/";
+        $country = $request->country ?? 'sg';
+        $countries = $this->getCountry();
+        // return $countries;
         
         // return $keyword
-        $getHtml = $this->getData($keyword);
+        $getHtml = $this->getData($keyword,$country);
         // $dom->loadFromUrl("https://www.google.com/search?q=php+tutorial&gl=us&hl=en&num=100");
         $dom->loadStr($getHtml);
         $results = $dom->find(".MjjYud > div.g");
@@ -77,17 +80,30 @@ class HomeController extends Controller
         }
         $html = $dom->outerHtml;
         
-        return view('home',['html'=> $html,'respon'=> $respon,'keyword'=>$keyword,'domain'=>$domain]);
+        return view('home',[
+            'html'=> $html,
+            'respon'=> $respon,
+            'keyword'=>$keyword,
+            'country'=>$country,
+            'countries'=>$countries,
+            'domain'=>$domain
+        ]);
     }
 
-    public function getData($keyword) {
+    public function getData($keyword,$country) {
         $keyword = str_replace(' ','+',$keyword);
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://www.google.com/search?q=$keyword&gl=my&hl=en&num=100&sclient=gws-wiz-serp");
+        curl_setopt($ch, CURLOPT_URL, "https://www.google.com/search?q=$keyword&gl=$country&hl=en&num=100&sclient=gws-wiz-serp");
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.4951.54 Safari/537.36');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $html = curl_exec($ch);
         return $html;
+    }
+
+    public function getCountry(){
+        $path = resource_path() . '/json/google-countries.json';
+        return json_decode(file_get_contents($path), true);
+        
     }
 }

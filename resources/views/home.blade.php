@@ -28,24 +28,34 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
             {{$html}}
         </code>
         <form>
-            @csrf
+            
             <div class="container">
                 <div class="row">
-                    <div class="col-5">
+                    <div class="col-3">
+                            <div class="mb-3">
+                                <label for="" class="form-label">Country</label>
+                                <select class="form-select" name="country" id="">
+                                    @foreach ($countries as $c)                                        
+                                    <option value="{{$c['country_code']}}" @if($c['country_code'] == $country) selected @endif>{{$c['country_name']}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                    </div>
+                    <div class="col-3">
                         <div class="mb-3">
                             <label for="" class="form-label">Keywords</label>
                             <input type="text"
                               class="form-control" name="keyword" value="{{ $keyword }}" aria-describedby="helpId" placeholder="">
                           </div>
                     </div>
-                    <div class="col-5">
+                    <div class="col-3">
                         <div class="mb-3">
                             <label for="" class="form-label">Domain</label>
                             <input type="text"
                               class="form-control" value="{{ $domain }}" name="domain" id="" aria-describedby="helpId" placeholder="">
                           </div>
                     </div>
-                    <div class="col-2">
+                    <div class="col-3">
                         <div class="mt-4 pt-1">
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
@@ -53,6 +63,7 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
                 </div>
             </div>
         </form>
+        <hr>
         <div class="flex">
             <div class="rank-position" style="width:40%;max-height:600px;overflow:auto">
                 <div class="match">
