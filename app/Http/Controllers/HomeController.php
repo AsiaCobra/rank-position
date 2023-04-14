@@ -32,19 +32,21 @@ class HomeController extends Controller
         $keyword = $request->keyword ?? "digital marketing agency in malaysia";
         $domain  = $request->domain ?? "https://www.impossible.com.my/";
         $country = $request->country ?? 'sg';
+        $device  = $request->device  ?? 'desktop';
         $countries = $this->getCountry();
         // return $countries;
         
         // return $keyword
-        $getHtml = $this->getData($keyword,$country);
+        $getHtml = $this->getData($keyword,$country,$device);
         // $dom->loadFromUrl("https://www.google.com/search?q=php+tutorial&gl=us&hl=en&num=100");
         $dom->loadStr($getHtml);
-        $results = $dom->find(".MjjYud > div.g");
+        $results = $dom->find('[jscontroller="SC7lYd"]');
         // return count($results);
         $c = 1;
         $respon  = [];
         if( count($results) ){
             foreach ($results as $result) {
+                // return $result;
                 $position = ($c++);
 
                 $innerNode = new HtmlNode("div");
@@ -86,14 +88,17 @@ class HomeController extends Controller
             'keyword'=>$keyword,
             'country'=>$country,
             'countries'=>$countries,
+            'device'=>$device,
             'domain'=>$domain
         ]);
     }
 
-    public function getData($keyword,$country) {
+    public function getData($keyword,$country,$device='desktop') {
+        $sclient = 'gws-wiz-serp';
+        if($device !== 'desktop') $sclient = 'mobile-wiz-serp';
         $keyword = str_replace(' ','+',$keyword);
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://www.google.com/search?q=$keyword&gl=$country&hl=en&num=100&sclient=gws-wiz-serp");
+        curl_setopt($ch, CURLOPT_URL, "https://www.google.com/search?q=$keyword&gl=$country&hl=en&num=100&oq=$keyword&sclient=$sclient");
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.4951.54 Safari/537.36');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

@@ -31,7 +31,7 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
             
             <div class="container">
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-2">
                             <div class="mb-3">
                                 <label for="" class="form-label">Country</label>
                                 <select class="form-select" name="country" id="">
@@ -40,6 +40,16 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
                                     @endforeach
                                 </select>
                             </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="mb-3">
+                            <label for="" class="form-label">Device</label>
+                            <select class="form-select" name="device" id="">
+                                @foreach (['desktop'=>'Desktop','mobile'=>"mobile"] as $key=>$c)                                        
+                                <option value="{{$key}}" @if($key == $device) selected @endif>{{$c}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="col-3">
                         <div class="mb-3">
@@ -55,9 +65,9 @@ integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+f
                               class="form-control" value="{{ $domain }}" name="domain" id="" aria-describedby="helpId" placeholder="">
                           </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-2">
                         <div class="mt-4 pt-1">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Check</button>
                         </div>
                     </div>
                 </div>
