@@ -31,7 +31,7 @@ class HomeController extends Controller
         );
         $keyword = $request->keyword ?? "digital marketing agency in malaysia";
         $domain  = $request->domain ?? "https://www.impossible.com.my/";
-        $country = $request->country ?? 'sg';
+        $country = $request->country ?? 'my';
         $device  = $request->device  ?? 'desktop';
         $countries = $this->getCountry();
         // return $countries;
